@@ -34,7 +34,7 @@ namespace Programming_Challenges
             Regex rxLainausmerkki = new Regex("\"");                        // Hakee lainausmerkit, joiden sisällä on sana
             Regex rxKansallisuus = new Regex("\\;([A-Z][a-z].*)");          // Tarkistaa ollaanko vaihtamassa kansallisuutta
 
-            maaLista = new List<MaaOlio>();          
+            maaLista = new List<MaaOlio>();
             MaaOlio maaOlio;
 
             string nimi, kansallisuus, sukupuoli;
@@ -68,14 +68,28 @@ namespace Programming_Challenges
 
                                 // Tarkistetaan, onko maa jo lisätty listaan
                                 foreach(var i in maaLista) {
-                                    if((i.Nationality == kansallisuus) && (i.Gender == ge) && (i.FName == etunimi)) {
+                                    if(i.Nationality == kansallisuus) {
                                         maaOlio = i;
                                         continue;
                                     }
                                 }
+
                                 // Jos maa ei ollut listassa, tehdään uusi maa
                                 if(maaOlio == null) {
-                                    maaOlio = new MaaOlio(kansallisuus, etunimi, ge);
+                                    maaOlio = new MaaOlio(kansallisuus);
+                                    maaOlio.LisaaNimiOminaisuudet(etunimi, ge);
+                                    maaLista.Add(maaOlio);
+                                }
+                                // Jos maa oli listassa, käydään maan ominaisuudet läpi ja katsotaan onko nämä jo lisätty
+                                else {
+                                    bool ominaisuudet = false;
+                                    foreach(var i in maaOlio.nimiOmaisuudetLista) {
+                                        if((i.Gender == ge) && (i.FName == etunimi)) {
+                                            ominaisuudet = true;
+                                        }
+                                    }
+                                    if(!ominaisuudet)
+                                        maaOlio.LisaaNimiOminaisuudet(etunimi, ge);
                                 }
                                 // Hypätään seuraavaan riviin siinä uskossa, että sieltä löytyisi nimi
                                 line = sr.ReadLine();
@@ -89,7 +103,6 @@ namespace Programming_Challenges
                                     }
                                     line = sr.ReadLine();
                                 }
-                                maaLista.Add(maaOlio);
                             }
                         }
                     }
@@ -100,33 +113,46 @@ namespace Programming_Challenges
         }
         public class MaaOlio
         {
-            public void LisaaNimi(string name) {
-                maa = new NimiOlio(name);
-                NimiLista.Add(maa);
-            }
-
-            public List<NimiOlio> nimiLista = new List<NimiOlio>();
-            public string Nationality { get; set; }
-            public bool FName { get; set; }
-            public Gender Gender { get; set; }
-            public List<NimiOlio> NimiLista { get => nimiLista; set => nimiLista = value; }
-
-            private NimiOlio maa;
-
-            public MaaOlio(string nationality, bool fName, Gender gender) {
-                Nationality = nationality;
-                FName = fName;
-                Gender = gender;
-            }
-
-            public class NimiOlio
+            public class NimiOminaisuudet
             {
-                public NimiOlio(string name) {
-                    Name = name;
+                public class Nimi
+                {
+                    public Nimi(string name) {
+                        Name = name;
+                    }
+                    //// Muuttujat Nimelle////
+                    public string Name { get; set; }
                 }
-                public string Name { get; set; }
+                public NimiOminaisuudet(bool fName, Gender gender) {
+                    FName = fName;
+                    Gender = gender;
+                }
+                public void LisaaNimi(string name) {
+                    Nimet.Add(new Nimi(name));
+                }
+
+                //// Muuttujat NimiOliolle////
+                public bool FName { get; set; }
+                public Gender Gender { get; set; }
+                internal List<Nimi> Nimet { get; set; } = new List<Nimi>();
             }
+            public void LisaaNimiOminaisuudet(bool fname, Gender ge) {
+                nimiOminaisuudet = new NimiOminaisuudet(fname, ge);
+                nimiOmaisuudetLista.Add(nimiOminaisuudet);
+            }
+            public void LisaaNimi(string name) {
+                nimiOminaisuudet.LisaaNimi(name);
+            }
+            //// Muuttujat MaaOliolle////
+            public List<NimiOminaisuudet> nimiOmaisuudetLista { get; set; }
+            private NimiOminaisuudet nimiOminaisuudet;
+            public MaaOlio(string nationality) {
+                Nationality = nationality;
+                nimiOmaisuudetLista = new List<NimiOminaisuudet>();
+            }
+            public string Nationality { get; set; }
         }
+
         public enum Gender
         {
             Male, Female, None

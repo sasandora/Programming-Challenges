@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Programming_Challenges
@@ -19,30 +20,26 @@ namespace Programming_Challenges
                 maat.Add(maa);
             }
             maat.Sort();
-            buffer = "";
 
             // Ei lisätä duplikaatteja komponenttiin
             foreach(var m in maat) {
-                if(buffer != m)
-                    chklbNationalities.Items.Add(m);
-                buffer = m;
+                chklbNationalities.Items.Add(m);
             }
         }
         /* TO DO...
-         Tee lista, johon kertää valittujen maiden nimet. Tarkista miten pitkä lista on ja tee siitä arpa.
-         Arvo sitten mikä nimistä valitaan. Ota vain valitun sukupuolen nimet listaan. Jos sukupuolta ei ole
-         valittu, tulee etunimen olla satunnainen.
+         Jos sukupuolta ei ole valittu, tulee etunimen olla satunnainen.
              */
         private void btnLuoNimi_Click(object sender, System.EventArgs e) {
             btnLuoNimi.Enabled = false;
+            Random random = new Random();
             List<string> valitutMaat = new List<string>();
-            short sukupuoli;
+            NameGenerator.Gender sukupuoli;
             if(rdMies.Checked)
-                sukupuoli = 0;
+                sukupuoli = NameGenerator.Gender.Male;
             else if(rdNainen.Checked)
-                sukupuoli = 1;
+                sukupuoli = NameGenerator.Gender.Female;
             else
-                sukupuoli = 2;
+                sukupuoli = NameGenerator.Gender.None;
 
             // Tarkistetaan onko maita valittu
             if(chklbNationalities.CheckedItems != null) {
@@ -57,16 +54,13 @@ namespace Programming_Challenges
                         // Hypätään yli, jos maa ei ollut valittujen listassa
                         if(maa == nimi.Nationality) {
                             // Tarkistetaan, onko listan nimi etu- vai sukunimi
-                            if(nimi.FName) {
-                                foreach(var item in nimi.nimiLista) {
-                                    // Katsotaan vastaako nimi valittua sukupuolta
-                                    if((nimi.Gender.ToString() == "Male" && sukupuoli == 0) ||
-                                        (nimi.Gender.ToString() == "Female" && sukupuoli == 1) ||
-                                        (sukupuoli == 2)) {
-                                        txtEnimi.Text = item.Name;
-                                    } else {
-                                        txtSnimi.Text = item.Name;
-                                    }
+                            foreach(var ominaisuudet in nimi.nimiOmaisuudetLista) {
+                                if(ominaisuudet.Gender == NameGenerator.Gender.Male) {
+                                    int arpa = random.Next(ominaisuudet.Nimet.Count);
+                                    txtEnimi.Text = ominaisuudet.Nimet[arpa].Name;
+                                } else if(ominaisuudet.Gender == NameGenerator.Gender.None) {
+                                    int arpa = random.Next(ominaisuudet.Nimet.Count);
+                                    txtSnimi.Text = ominaisuudet.Nimet[arpa].Name;
                                 }
                             }
                         }
