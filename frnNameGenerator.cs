@@ -9,6 +9,13 @@ namespace Programming_Challenges
         private NameGenerator ng;
         public frnNameGenerator() {
             InitializeComponent();
+            Alustus();
+
+        }
+        /* TO DO...
+         Jos sukupuolta ei ole valittu, tulee etunimen olla satunnainen.
+             */
+        private void Alustus() {
             ng = new NameGenerator();
             ng.LueNimet();
             List<string> maat = new List<string>();
@@ -20,14 +27,10 @@ namespace Programming_Challenges
             }
             maat.Sort();
 
-            // Ei lisätä duplikaatteja komponenttiin
             foreach(var m in maat) {
                 chklbNationalities.Items.Add(m);
             }
         }
-        /* TO DO...
-         Jos sukupuolta ei ole valittu, tulee etunimen olla satunnainen.
-             */
 
         private void ArvoNimet() {
             Random random = new Random();

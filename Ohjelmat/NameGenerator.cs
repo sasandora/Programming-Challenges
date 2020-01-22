@@ -80,9 +80,9 @@ namespace Programming_Challenges
 
                                 // Jos maa ei ollut listassa, tehdään uusi maa
                                 if(maaOlio == null) {
-                                    maaOlio = new MaaOlio(kansallisuus);
-                                    maaOlio.LisaaNimiOminaisuudet(etunimi, ge);
-                                    maaLista.Add(maaOlio);
+                                    maaOlio = new MaaOlio(kansallisuus);        // Luodaan uusi maa tällä nimellä
+                                    maaOlio.LisaaNimiOminaisuudet(etunimi, ge); // Annetaan myös ominaisuudet, jonka mukaan nimi jaotellaan
+                                    maaLista.Add(maaOlio);                      // Lisätään vielä maa listaan
                                 }
                                 // Jos maa oli listassa, käydään maan ominaisuudet läpi ja katsotaan onko nämä jo lisätty
                                 else {
