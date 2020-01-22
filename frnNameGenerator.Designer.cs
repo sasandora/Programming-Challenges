@@ -51,6 +51,7 @@
             this.txtEnimi.ReadOnly = true;
             this.txtEnimi.Size = new System.Drawing.Size(128, 20);
             this.txtEnimi.TabIndex = 1;
+            this.txtEnimi.Click += new System.EventHandler(this.txtEnimi_Click);
             // 
             // txtSnimi
             // 
@@ -59,6 +60,7 @@
             this.txtSnimi.ReadOnly = true;
             this.txtSnimi.Size = new System.Drawing.Size(135, 20);
             this.txtSnimi.TabIndex = 2;
+            this.txtSnimi.Click += new System.EventHandler(this.txtSnimi_Click);
             // 
             // btnLuoNimi
             // 

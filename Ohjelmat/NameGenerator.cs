@@ -8,6 +8,10 @@ namespace Programming_Challenges
 {
     class NameGenerator
     {
+        /* TO DO...
+         * Pitää keksiä vielä jokin tapa poimia myös niiden maiden sukunimet, joissa
+         * sukunimilläkin on sukupuolijakauma (kuten Islanti tai Azeri).
+         */
         public List<MaaOlio> maaLista { get; set; }
 
         /* Funktio hakee nimet tiedostosta ja käy tekstin läpi rivi kerrallaan. Jokainen rivi tarkis-
@@ -142,6 +146,9 @@ namespace Programming_Challenges
             }
             public void LisaaNimi(string name) {
                 nimiOminaisuudet.LisaaNimi(name);
+                if(name == "Icelandic") {
+                    int tyr = 0;
+                }
             }
             //// Muuttujat MaaOliolle////
             public List<NimiOminaisuudet> nimiOmaisuudetLista { get; set; }

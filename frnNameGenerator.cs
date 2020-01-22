@@ -11,7 +11,6 @@ namespace Programming_Challenges
             InitializeComponent();
             ng = new NameGenerator();
             ng.LueNimet();
-            string buffer;
             List<string> maat = new List<string>();
 
             // Käydään nimet listaan
@@ -29,8 +28,8 @@ namespace Programming_Challenges
         /* TO DO...
          Jos sukupuolta ei ole valittu, tulee etunimen olla satunnainen.
              */
-        private void btnLuoNimi_Click(object sender, System.EventArgs e) {
-            btnLuoNimi.Enabled = false;
+
+        private void ArvoNimet() {
             Random random = new Random();
             List<string> valitutMaat = new List<string>();
             NameGenerator.Gender sukupuoli;
@@ -55,7 +54,7 @@ namespace Programming_Challenges
                         if(maa == nimi.Nationality) {
                             // Tarkistetaan, onko listan nimi etu- vai sukunimi
                             foreach(var ominaisuudet in nimi.nimiOmaisuudetLista) {
-                                if(ominaisuudet.Gender == NameGenerator.Gender.Male) {
+                                if(ominaisuudet.Gender == sukupuoli) {
                                     int arpa = random.Next(ominaisuudet.Nimet.Count);
                                     txtEnimi.Text = ominaisuudet.Nimet[arpa].Name;
                                 } else if(ominaisuudet.Gender == NameGenerator.Gender.None) {
@@ -67,7 +66,21 @@ namespace Programming_Challenges
                     }
                 }
             }
+        }
+        private void btnLuoNimi_Click(object sender, System.EventArgs e) {
+            btnLuoNimi.Enabled = false;
+            ArvoNimet();
             btnLuoNimi.Enabled = true;
+        }
+
+        private void txtEnimi_Click(object sender, EventArgs e) {
+            txtEnimi.SelectAll();
+            Clipboard.SetText(txtEnimi.Text);
+        }
+
+        private void txtSnimi_Click(object sender, EventArgs e) {
+            txtSnimi.SelectAll();
+            Clipboard.SetText(txtSnimi.Text);
         }
     }
 }
