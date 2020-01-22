@@ -51,7 +51,7 @@ namespace Programming_Challenges
 
                             // Otetaan rivistä kansallisuus
                             if(!Regex.IsMatch(line, "(MALE|FEMALE|SURNAMES)")) {
-                                kansallisuus = Regex.Match(line, "\\w+").Value;
+                                kansallisuus = Regex.Match(line, @"\w+-?\w*").Value;
 
                                 // Otetaan rivistä sukupuoli
                                 sukupuoli = Regex.Match(line, "(male|female)").Value;
